@@ -83,7 +83,7 @@ func (s *Server) Start() {
 		}
 		config := tls.Config{Certificates: []tls.Certificate{cert}}
 		config.Rand = rand.Reader
-		
+
 		//2 监听服务器地址
 		service := "0.0.0.0:7777"
 		listener, err := tls.Listen("tcp", service, &config)
@@ -113,6 +113,7 @@ func (s *Server) Start() {
 			//3.2 设置服务器最大连接控制,如果超过最大连接，那么则关闭此新的连接
 			if s.ConnMgr.Len() >= utils.GlobalObject.MaxConn {
 				conn.Close()
+				fmt.Println("s.ConMgr too Big ", s.ConnMgr.Len())
 				continue
 			}
 
